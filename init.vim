@@ -135,7 +135,6 @@ let g:indentLine_enabled = 0
 " " Copy to clipboard
 vnoremap  <leader>y  "+y
 nnoremap  <leader>Y  "+yg_
-nnoremap  <leader>y  "+y
 nnoremap  <leader>yy  "+yy
 
 " " Paste from clipboard
