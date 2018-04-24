@@ -259,8 +259,8 @@ vnoremap K :m '<-2<CR>gv=gv
 """"""""""""""""""""""
 
 "" c
-autocmd FileType c setlocal tabstop=4 shiftwidth=4 expandtab
-autocmd FileType cpp setlocal tabstop=4 shiftwidth=4 expandtab
+autocmd FileType c setlocal tabstop=2 shiftwidth=2 expandtab
+autocmd FileType cpp setlocal tabstop=2 shiftwidth=2 expandtab
 
 "" html
 "" for html files, 2 spaces
