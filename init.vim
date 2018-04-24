@@ -10,7 +10,7 @@ Plug 'bronson/vim-trailing-whitespace'
 Plug 'Raimondi/delimitMate' " Closing brackets
 Plug 'majutsushi/tagbar'
 Plug 'scrooloose/syntastic'
-Plug 'Yggdroot/indentLine'
+" Plug 'Yggdroot/indentLine'
 Plug 'xolox/vim-misc'
 Plug 'mindriot101/vim-yapf'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
@@ -125,6 +125,7 @@ set background=dark
 colorscheme solarized
 
 let g:indentLine_color_term = 239
+let g:indentLine_enabled = 0
 
 
 """""""""""""""""""""
