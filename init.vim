@@ -26,6 +26,7 @@ Plug 'junegunn/fzf.vim'
 
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+Plug 'rhysd/vim-clang-format'
 
 "" Color
 Plug 'altercation/vim-colors-solarized'
