@@ -174,6 +174,9 @@ nnoremap <silent> <F2> :NERDTreeFind<CR>
 "nnoremap <silent> <F3> :NERDTreeToggle<CR>
 nnoremap <silent> <leader>nt :NERDTreeToggle<CR>
 
+"" git-gutter settings
+set updatetime=100
+
 """""""""""""""""""""
 """ Autocmd Rules """
 """""""""""""""""""""
