@@ -7,7 +7,8 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-scripts/grep.vim'
 Plug 'bronson/vim-trailing-whitespace'
-Plug 'Raimondi/delimitMate' " Closing brackets
+" Plug 'Raimondi/delimitMate' " Closing brackets
+Plug 'jiangmiao/auto-pairs'
 Plug 'majutsushi/tagbar'
 Plug 'scrooloose/syntastic'
 " Plug 'Yggdroot/indentLine'
