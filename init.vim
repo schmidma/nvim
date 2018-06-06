@@ -92,8 +92,8 @@ let g:session_command_aliases = 1
 """ Visual Settings """
 """""""""""""""""""""""
 
-set cursorline
-set cursorcolumn
+" set cursorline
+" set cursorcolumn
 
 let &t_SI = "\<Esc>[6 q"
 let &t_SR = "\<Esc>[4 q"
