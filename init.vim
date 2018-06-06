@@ -204,8 +204,33 @@ nnoremap <silent><F5> :set relativenumber!<CR>
 noremap <Leader>h :<C-u>split<CR>
 noremap <Leader>v :<C-u>vsplit<CR>
 
-"" Toggle between hpp + cpp
-map <C-I><C-I> :e %:p:s,.hpp$,.X123X,:s,.cpp$,.hpp,:s,.X123X$,.cpp,<CR>
+" toggle source header key
+nmap <C-I><C-I> :call ToggleSourceHeader()<CR>
+
+" toggle source header function
+function ToggleSourceHeader()
+    let extension = expand('%:e')
+    if(extension == "hpp")
+        let file = expand('%:r') . '.cpp'
+        if filereadable(file)
+            execute ":e %:r.cpp"
+        endif
+    elseif(extension == "h")
+        let file = expand('%:r') . '.cpp'
+        if filereadable(file)
+            execute ":e %:r.cpp"
+        endif
+    elseif(extension == "cpp")
+        let file = expand('%:r') . '.hpp'
+        if filereadable(file)
+            execute ":e %:r.hpp"
+        endif
+        let file = expand('%:r') . '.h'
+        if filereadable(file)
+            execute ":e %:r.h"
+        endif
+     endif
+endfunc
 
 "" Tabs
 nnoremap <Tab> gt
