@@ -205,11 +205,11 @@ nnoremap <C-Y> :Yapf --style pep8<CR>
 nnoremap <silent><F5> :set relativenumber!<CR>
 
 "" Split
-noremap <Leader>h :<C-u>split<CR>
-noremap <Leader>v :<C-u>vsplit<CR>
+noremap <Leader>sh :<C-u>split<CR>
+noremap <Leader>sv :<C-u>vsplit<CR>
 
 " toggle source header key
-nmap <C-I><C-I> :call ToggleSourceHeader()<CR>
+nmap <leader><C-I> :call ToggleSourceHeader()<CR>
 
 " toggle source header function
 function ToggleSourceHeader()
@@ -237,18 +237,13 @@ function ToggleSourceHeader()
 endfunc
 
 "" Tabs
-nnoremap <Tab> gt
-nnoremap <S-Tab> gT
-nnoremap <silent> <S-t> :tabnew<CR>
+nnoremap <leader>h gt
+nnoremap <leader>l gT
+nnoremap <silent><leader>t :tabnew<CR>
+nnoremap <leader>x :tabclose<CR>
 
 "" Set working directory
 nnoremap <leader>. :lcd %:p:h<CR>
-
-"" Opens an edit command with the path of the currently edited file filled in
-noremap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
-
-"" Opens a tab edit command with the path of the currently edited file filled
-noremap <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
 
 cnoremap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 nnoremap <silent> <leader>b :Buffers<CR>
@@ -268,8 +263,8 @@ nnoremap <leader>pe :lprevious<CR>
 nmap <silent> <F4> :TagbarToggle<CR>
 
 "" Buffer nav
-noremap <leader>q :bp<CR>
-noremap <leader>w :bn<CR>
+noremap <leader>j :bp<CR>
+noremap <leader>k :bn<CR>
 
 "" Close buffer
 noremap <leader>c :bd<CR>
@@ -354,8 +349,8 @@ let g:syntastic_aggregate_errors = 1
 let g:syntastic_check_on_open = 1
 
 " vim-airline
-"let g:airline_theme = 'powerlineish'
 let g:airline_theme = 'badwolf'
+let g:airline_solarized_bg='dark'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 
