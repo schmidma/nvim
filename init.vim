@@ -195,6 +195,9 @@ set autoread
 """ Mappings """
 """"""""""""""""
 
+"" leader save
+nnoremap <leader>w :w<CR>
+
 "" YAPF (autoformat python)
 nnoremap <C-Y> :Yapf --style pep8<CR>
 
