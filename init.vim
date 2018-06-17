@@ -21,6 +21,7 @@ function! DoRemote(arg)
   UpdateRemotePlugins
 endfunction
 Plug 'daeyun/vim-matlab', { 'do': function('DoRemote') }
+Plug 'lervag/vimtex'
 
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
