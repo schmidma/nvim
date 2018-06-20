@@ -211,6 +211,10 @@ noremap <Leader>sv :<C-u>vsplit<CR>
 " toggle source header key
 nmap <leader><C-I> :call ToggleSourceHeader()<CR>
 
+" clang format
+nmap <leader>r :ClangFormat<CR>
+vmap <leader>r :ClangFormat<CR>
+
 " toggle source header function
 function ToggleSourceHeader()
     let extension = expand('%:e')
