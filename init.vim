@@ -195,6 +195,10 @@ set autoread
 """ Mappings """
 """"""""""""""""
 
+"" Navigate properly when lines are wrapped
+map j gj
+map k gk
+
 "" leader save
 nnoremap <leader>w :w<CR>
 
