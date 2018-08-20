@@ -208,6 +208,9 @@ nnoremap <C-Y> :Yapf --style pep8<CR>
 "" Toggle relative numbering
 nnoremap <silent><F5> :set relativenumber!<CR>
 
+"" Terminal mode escape
+tnoremap <Esc> <C-\><C-n>
+
 "" Split
 noremap <Leader>sh :<C-u>split<CR>
 noremap <Leader>sv :<C-u>vsplit<CR>
