@@ -6,6 +6,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-scripts/grep.vim'
+Plug 'vim-scripts/DoxygenToolkit.vim'
 Plug 'bronson/vim-trailing-whitespace'
 " Plug 'Raimondi/delimitMate' " Closing brackets
 Plug 'jiangmiao/auto-pairs'
@@ -30,8 +31,10 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'rhysd/vim-clang-format'
 
+Plug 'rhysd/vim-grammarous'
+
 "" Color
-Plug 'altercation/vim-colors-solarized'
+Plug 'chriskempson/base16-vim'
 
 " All of your Plugins must be added before the following line
 call plug#end()            " required
@@ -96,9 +99,9 @@ let g:session_command_aliases = 1
 " set cursorline
 " set cursorcolumn
 
-let &t_SI = "\<Esc>[6 q"
-let &t_SR = "\<Esc>[4 q"
-let &t_EI = "\<Esc>[2 q"
+"let &t_SI = "\<Esc>[6 q"
+"let &t_SR = "\<Esc>[4 q"
+"let &t_EI = "\<Esc>[2 q"
 
 syntax on
 set ruler
@@ -121,14 +124,10 @@ set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\
 
 let no_buffers_menu=1
 
-set t_Co=256
+let base16colorspace=256 " Access colors present in 256 colorspace
+colorscheme base16-default-dark
 
-let g:solarized_termcolors=256
-set background=dark
-colorscheme solarized
-
-let g:indentLine_color_term = 239
-let g:indentLine_enabled = 0
+let g:airline_theme='base16_default'
 
 
 """""""""""""""""""""
@@ -187,6 +186,9 @@ augroup vimrc-remember-cursor-position
   autocmd!
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 augroup END
+
+autocmd FileType mail setlocal spell
+autocmd FileType mail setlocal spelllang=en,de
 
 set autoread
 
@@ -248,8 +250,8 @@ function ToggleSourceHeader()
 endfunc
 
 "" Tabs
-nnoremap <leader>h gt
-nnoremap <leader>l gT
+nnoremap <leader>l gt
+nnoremap <leader>h gT
 nnoremap <silent><leader>t :tabnew<CR>
 nnoremap <leader>x :tabclose<CR>
 
@@ -329,8 +331,6 @@ augroup END
 """ Plugin Settings """
 """""""""""""""""""""""
 
-" let g:matlab_auto_mappings = 0 "automatic mappings disabled
-
 let g:ycm_python_binary_path = '/usr/bin/python3'
 let g:ycm_autoclose_preview_window_after_completion = 1
 
@@ -360,8 +360,8 @@ let g:syntastic_aggregate_errors = 1
 let g:syntastic_check_on_open = 1
 
 " vim-airline
-let g:airline_theme = 'badwolf'
-let g:airline_solarized_bg='dark'
+"let g:airline_theme = 'badwolf'
+"let g:airline_solarized_bg='dark'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 
@@ -370,11 +370,3 @@ set wildmode=list:longest,list:full
 set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
 let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
 
-"wintab stuff
-"let g:wintabs_use_powerline = 1
-"let g:wintabs_ui_active_buffer_higroup = "WintabsActiveBuffer"
-"let g:wintabs_ui_active_buffer_changed_higroup = "WintabsActiveBufferChanged"
-"let g:wintabs_ui_inactive_buffer_higroup = "WintabsInactiveBuffer"
-"let g:wintabs_ui_active_tab_higroup = "WintabsActiveTab"
-"let g:wintabs_ui_inactive_tab_higroup = "WintabsInactiveTab"
-"let g:wintabs_ui_show_vimtab_name = 2
