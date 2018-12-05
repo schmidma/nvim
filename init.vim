@@ -107,6 +107,8 @@ syntax on
 set ruler
 set number relativenumber
 
+set background=dark
+
 "" Split below and right
 set splitbelow
 set splitright
