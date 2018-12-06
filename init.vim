@@ -262,7 +262,7 @@ nnoremap <leader>. :lcd %:p:h<CR>
 
 cnoremap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 nnoremap <silent> <leader>b :Buffers<CR>
-nnoremap <silent> <leader>e :FZF -m<CR>
+nnoremap <silent> <leader>e :FZF<CR>
 
 "" YouCompleteMe
 nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
@@ -340,7 +340,7 @@ let g:ycm_autoclose_preview_window_after_completion = 1
 let g:powerline_pycmd='py3'
 
 " UltiSnips
-let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsExpandTrigger="<C-j>"
 
 " Disable visualbell
 set noerrorbells visualbell t_vb=
@@ -370,5 +370,4 @@ let g:airline#extensions#tabline#enabled = 1
 "" fzf.vim
 set wildmode=list:longest,list:full
 set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
-let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
 
