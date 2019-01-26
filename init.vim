@@ -341,6 +341,10 @@ let g:powerline_pycmd='py3'
 
 " UltiSnips
 let g:UltiSnipsExpandTrigger="<C-j>"
+let g:UltiSnipsSnippetDirectories = ['UltiSnips']
+if getcwd() =~ "nao"
+  call add(g:UltiSnipsSnippetDirectories,'/home/schmidma/worktree/hulks/nao/tools/IDEPlugins/NaoSnippets')
+endif
 
 " Disable visualbell
 set noerrorbells visualbell t_vb=
