@@ -385,8 +385,23 @@ let g:syntastic_check_on_open = 1
 "let g:airline_solarized_bg='dark'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail'
 
 "" fzf.vim
 set wildmode=list:longest,list:full
 set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
+
+"" nvim-gdb
+
+let g:nvimgdb_config_override = {
+  \ 'key_next': 'n',
+  \ 'key_step': 's',
+  \ 'key_finish': 'f',
+  \ 'key_continue': 'c',
+  \ 'key_until': 'u',
+  \ 'key_breakpoint': 'b',
+  \ 'key_eval': 'p',
+  \ 'set_tkeymaps': "NvimGdbNoTKeymaps",
+  \ 'split_command': 'split'
+  \ }
 
