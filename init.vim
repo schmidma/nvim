@@ -9,13 +9,21 @@ Plug 'vim-scripts/grep.vim'
 Plug 'vim-scripts/DoxygenToolkit.vim'
 Plug 'bronson/vim-trailing-whitespace'
 " Plug 'Raimondi/delimitMate' " Closing brackets
-Plug 'jiangmiao/auto-pairs'
+" Plug 'jiangmiao/auto-pairs'
+Plug 'nelstrom/vim-visual-star-search'
 Plug 'majutsushi/tagbar'
+Plug 'wellle/targets.vim'
+Plug 'michaeljsmith/vim-indent-object'
+Plug 'rhysd/clever-f.vim'
+Plug 'rstacruz/vim-closer'
+Plug 'tpope/vim-surround'
 Plug 'scrooloose/syntastic'
+" Plug 'sheerun/vim-polyglot'
 " Plug 'Yggdroot/indentLine'
 Plug 'xolox/vim-misc'
 Plug 'mindriot101/vim-yapf'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --system-libclang --clang-completer' }
+Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
 Plug 'tpope/vim-fugitive'
 Plug 'terryma/vim-multiple-cursors'
 function! DoRemote(arg)
@@ -200,8 +208,8 @@ set autoread
 """"""""""""""""
 
 "" Navigate properly when lines are wrapped
-map j gj
-map k gk
+map <silent> j gj
+map <silent> k gk
 
 "" leader save
 nnoremap <leader>w :w<CR>
@@ -341,6 +349,8 @@ let g:powerline_pycmd='py3'
 
 " UltiSnips
 let g:UltiSnipsExpandTrigger="<C-j>"
+let g:UltiSnipsJumpForwardTrigger="<CR>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 let g:UltiSnipsSnippetDirectories = ['UltiSnips']
 if getcwd() =~ "nao"
   call add(g:UltiSnipsSnippetDirectories,'/home/schmidma/worktree/hulks/nao/tools/IDEPlugins/NaoSnippets')
@@ -354,6 +364,11 @@ endif
 
 " Tagbar
 let g:tagbar_autofocus = 1
+
+" clever-f
+let g:clever_f_across_no_line = 1
+let g:clever_f_fix_key_direction = 1
+let g:clever_f_timeout_ms = 3000
 
 "" syntastic
 let g:syntastic_python_checkers=['python', 'flake8']
