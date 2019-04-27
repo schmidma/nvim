@@ -8,8 +8,6 @@ Plug 'airblade/vim-gitgutter'
 Plug 'vim-scripts/grep.vim'
 Plug 'vim-scripts/DoxygenToolkit.vim'
 Plug 'bronson/vim-trailing-whitespace'
-" Plug 'Raimondi/delimitMate' " Closing brackets
-" Plug 'jiangmiao/auto-pairs'
 Plug 'nelstrom/vim-visual-star-search'
 Plug 'majutsushi/tagbar'
 Plug 'wellle/targets.vim'
@@ -17,19 +15,15 @@ Plug 'michaeljsmith/vim-indent-object'
 Plug 'rhysd/clever-f.vim'
 Plug 'rstacruz/vim-closer'
 Plug 'tpope/vim-surround'
-Plug 'scrooloose/syntastic'
-" Plug 'sheerun/vim-polyglot'
-" Plug 'Yggdroot/indentLine'
 Plug 'xolox/vim-misc'
 Plug 'mindriot101/vim-yapf'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --system-libclang --clang-completer' }
+Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'w0rp/ale'
 Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
 Plug 'tpope/vim-fugitive'
 Plug 'terryma/vim-multiple-cursors'
-function! DoRemote(arg)
-  UpdateRemotePlugins
-endfunction
-Plug 'daeyun/vim-matlab', { 'do': function('DoRemote') }
+Plug 'daeyun/vim-matlab', { 'do': ':UpdateRemotePlugins' }
 Plug 'lervag/vimtex'
 
 Plug 'junegunn/fzf'
@@ -272,15 +266,65 @@ cnoremap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 nnoremap <silent> <leader>b :Buffers<CR>
 nnoremap <silent> <leader>e :FZF<CR>
 
-"" YouCompleteMe
-nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
-nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
-nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
-nnoremap <leader>f :YcmCompleter FixIt<CR>
+"" Deoplete
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#auto_complete_start_length = 2
+let g:deoplete#enable_refresh_always = 0
 
-"" syntastic errors
-nnoremap <leader>ne :lnext<CR>
-nnoremap <leader>pe :lprevious<CR>
+set completeopt-=preview
+
+if !exists('g:deoplete#omni#input_patterns')
+    let g:deoplete#omni#input_patterns = {}
+endif
+let g:deoplete#sources = {}
+let g:deoplete#sources._ = ['ale', 'file', 'omni']
+let g:deoplete#sources.cpp = ['LanguageClient', 'omni', 'file']
+let g:deoplete#sources.python = ['ale', 'LanguageClient', 'omni', 'file']
+let g:deoplete#sources.python3 = ['ale', 'LanguageClient', 'omni', 'file']
+let g:deoplete#sources.c = ['LanguageClient', 'file']
+let g:deoplete#sources.vim = ['vim', 'buffer']
+let g:deoplete#omni#input_patterns.tex = g:vimtex#re#deoplete
+" source ranks
+"call deoplete#custom#source('LanguageClient', 'rank', 9999)
+"call deoplete#custom#source('buffer', 'rank', 100)
+"call deoplete#custom#source('file', 'rank', 100)
+"call deoplete#custom#source('omni', 'rank', 100)
+" deoplete tab completion
+inoremap <silent><expr> <TAB>
+    \ pumvisible() ? "\<C-n>" :
+    \ <SID>check_back_space() ? "\<TAB>" :
+    \ deoplete#mappings#manual_complete()
+function! s:check_back_space() abort "{{{
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+endfunction"}}}
+
+"" LanguageClient auto completion for cpp and python
+let g:LanguageClient_loggingLevel = 'DEBUG'
+let g:LanguageClient_serverStderr = '/tmp/clangd.stderr'
+let g:LanguageClient_loggingFile = '/tmp/lc.log'
+let g:LanguageClient_autoStart = 1
+let g:LanguageClient_diagnosticsEnable = 0
+" Ensure clangd >= 6.0.0 and python-language-server are installed
+" Note clangd can read compile_commands.json from CMake
+let g:LanguageClient_serverCommands = {
+    \ 'python': ['pyls'],
+    \ 'python3': ['pyls'],
+    \ 'cpp': ['ccls', '--log-file=/tmp/cc.log', '-v=2'],
+    \ 'c': ['ccls', '--log-file=/tmp/cc.log', '-v=2'],
+    \ }
+" open help doc with 'K' close help window with command :pc
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+
+let g:ale_linters = {
+    \ 'python': ['pylint'],
+    \ 'cpp': ['clangtidy'],
+    \ 'c': ['gcc'],
+    \ 'fortran': ['gcc'],
+    \ 'tex': ['proselint', 'write-good'],
+    \ 'markdown': ['proselint', 'write-good'],
+    \ }
 
 " Tagbar
 nmap <silent> <F4> :TagbarToggle<CR>
@@ -340,9 +384,6 @@ augroup END
 """""""""""""""""""""""
 """ Plugin Settings """
 """""""""""""""""""""""
-
-let g:ycm_python_binary_path = '/usr/bin/python3'
-let g:ycm_autoclose_preview_window_after_completion = 1
 
 "" powerline python
 let g:powerline_pycmd='py3'
