@@ -17,9 +17,10 @@ Plug 'rstacruz/vim-closer'
 Plug 'tpope/vim-surround'
 Plug 'xolox/vim-misc'
 Plug 'mindriot101/vim-yapf'
-Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'w0rp/ale'
+"Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
+"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+"Plug 'w0rp/ale'
+Plug 'neoclide/coc.nvim', {'do': './install.sh nightly'}
 Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
 Plug 'tpope/vim-fugitive'
 Plug 'terryma/vim-multiple-cursors'
@@ -47,7 +48,7 @@ call plug#end()            " required
 """ Basic Setup """
 """""""""""""""""""
 
-"" mouse
+"" mouse all modes
 set mouse=a
 
 "" Encoding
@@ -56,7 +57,6 @@ set fileencoding=utf-8
 set fileencodings=utf-8
 set bomb
 set binary
-set ttyfast
 
 "" Fix backspace indent
 set backspace=indent,eol,start
@@ -79,6 +79,12 @@ set incsearch
 set ignorecase
 set smartcase
 
+" Disable visualbell
+set noerrorbells visualbell t_vb=
+if has('autocmd')
+  autocmd GUIEnter * set visualbell t_vb=
+endif
+
 "" Directories for swp files
 set nobackup
 set noswapfile
@@ -87,11 +93,7 @@ set fileformats=unix,dos,mac
 
 set shell=$SHELL
 
-" session management
-let g:session_directory = "~/.vim/session"
-let g:session_autoload = "no"
-let g:session_autosave = "no"
-let g:session_command_aliases = 1
+set autoread
 
 
 """""""""""""""""""""""
@@ -100,10 +102,6 @@ let g:session_command_aliases = 1
 
 " set cursorline
 " set cursorcolumn
-
-"let &t_SI = "\<Esc>[6 q"
-"let &t_SR = "\<Esc>[4 q"
-"let &t_EI = "\<Esc>[2 q"
 
 syntax on
 set ruler
@@ -115,6 +113,7 @@ set background=dark
 set splitbelow
 set splitright
 
+"" Minimal number of screen lines to keep above and below the cursor.
 set scrolloff=3
 
 "" Status bar (display always)
@@ -128,6 +127,7 @@ set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\
 
 let no_buffers_menu=1
 
+"" Base16 color
 let base16colorspace=256 " Access colors present in 256 colorspace
 colorscheme base16-default-dark
 
@@ -166,20 +166,6 @@ cnoreabbrev W w
 cnoreabbrev Q q
 cnoreabbrev Qall qall
 
-"" NERDTree configuration
-let g:NERDTreeChDirMode=2
-let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
-let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
-let g:NERDTreeShowBookmarks=1
-let g:nerdtree_tabs_focus_on_files=1
-let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
-nnoremap <silent> <F2> :NERDTreeFind<CR>
-"nnoremap <silent> <F3> :NERDTreeToggle<CR>
-nnoremap <silent> <leader>nt :NERDTreeToggle<CR>
-
-"" git-gutter settings
-set updatetime=100
 
 """""""""""""""""""""
 """ Autocmd Rules """
@@ -194,7 +180,28 @@ augroup END
 autocmd FileType mail setlocal spell
 autocmd FileType mail setlocal spelllang=en,de
 
-set autoread
+"" c, cpp
+autocmd FileType c setlocal tabstop=2 shiftwidth=2 expandtab
+autocmd FileType cpp setlocal tabstop=2 shiftwidth=2 expandtab
+
+"" html
+"" for html files, 2 spaces
+autocmd Filetype html setlocal ts=2 sw=2 expandtab
+
+"" vim-javascript
+augroup vimrc-javascript
+  autocmd!
+  autocmd FileType javascript set tabstop=4|set shiftwidth=4|set expandtab softtabstop=4
+augroup END
+
+"" python
+"" vim-python
+augroup vimrc-python
+  autocmd!
+  autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=8 colorcolumn=79
+      \ formatoptions+=croq softtabstop=4
+      \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
+augroup END
 
 
 """"""""""""""""
@@ -208,9 +215,6 @@ map <silent> k gk
 "" leader save
 nnoremap <leader>w :w<CR>
 
-"" YAPF (autoformat python)
-nnoremap <C-Y> :Yapf --style pep8<CR>
-
 "" Toggle relative numbering
 nnoremap <silent><F5> :set relativenumber!<CR>
 
@@ -223,10 +227,6 @@ noremap <Leader>sv :<C-u>vsplit<CR>
 
 " toggle source header key
 nmap <leader><C-I> :call ToggleSourceHeader()<CR>
-
-" clang format
-nmap <leader>r :ClangFormat<CR>
-vmap <leader>r :ClangFormat<CR>
 
 " toggle source header function
 function ToggleSourceHeader()
@@ -264,70 +264,7 @@ nnoremap <leader>. :lcd %:p:h<CR>
 
 cnoremap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 nnoremap <silent> <leader>b :Buffers<CR>
-nnoremap <silent> <leader>e :FZF<CR>
 
-"" Deoplete
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#auto_complete_start_length = 2
-let g:deoplete#enable_refresh_always = 0
-
-set completeopt-=preview
-
-if !exists('g:deoplete#omni#input_patterns')
-    let g:deoplete#omni#input_patterns = {}
-endif
-let g:deoplete#sources = {}
-let g:deoplete#sources._ = ['ale', 'file', 'omni']
-let g:deoplete#sources.cpp = ['LanguageClient', 'omni', 'file']
-let g:deoplete#sources.python = ['ale', 'LanguageClient', 'omni', 'file']
-let g:deoplete#sources.python3 = ['ale', 'LanguageClient', 'omni', 'file']
-let g:deoplete#sources.c = ['LanguageClient', 'file']
-let g:deoplete#sources.vim = ['vim', 'buffer']
-let g:deoplete#omni#input_patterns.tex = g:vimtex#re#deoplete
-" source ranks
-"call deoplete#custom#source('LanguageClient', 'rank', 9999)
-"call deoplete#custom#source('buffer', 'rank', 100)
-"call deoplete#custom#source('file', 'rank', 100)
-"call deoplete#custom#source('omni', 'rank', 100)
-" deoplete tab completion
-inoremap <silent><expr> <TAB>
-    \ pumvisible() ? "\<C-n>" :
-    \ <SID>check_back_space() ? "\<TAB>" :
-    \ deoplete#mappings#manual_complete()
-function! s:check_back_space() abort "{{{
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~ '\s'
-endfunction"}}}
-
-"" LanguageClient auto completion for cpp and python
-let g:LanguageClient_loggingLevel = 'DEBUG'
-let g:LanguageClient_serverStderr = '/tmp/clangd.stderr'
-let g:LanguageClient_loggingFile = '/tmp/lc.log'
-let g:LanguageClient_autoStart = 1
-let g:LanguageClient_diagnosticsEnable = 0
-" Ensure clangd >= 6.0.0 and python-language-server are installed
-" Note clangd can read compile_commands.json from CMake
-let g:LanguageClient_serverCommands = {
-    \ 'python': ['pyls'],
-    \ 'python3': ['pyls'],
-    \ 'cpp': ['ccls', '--log-file=/tmp/cc.log', '-v=2'],
-    \ 'c': ['ccls', '--log-file=/tmp/cc.log', '-v=2'],
-    \ }
-" open help doc with 'K' close help window with command :pc
-nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-
-let g:ale_linters = {
-    \ 'python': ['pylint'],
-    \ 'cpp': ['clangtidy'],
-    \ 'c': ['gcc'],
-    \ 'fortran': ['gcc'],
-    \ 'tex': ['proselint', 'write-good'],
-    \ 'markdown': ['proselint', 'write-good'],
-    \ }
-
-" Tagbar
-nmap <silent> <F4> :TagbarToggle<CR>
 
 "" Buffer nav
 noremap <leader>j :bp<CR>
@@ -353,42 +290,93 @@ vmap > >gv
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
-""""""""""""""""""""""
-""" Custom configs """
-""""""""""""""""""""""
-
-"" c
-autocmd FileType c setlocal tabstop=2 shiftwidth=2 expandtab
-autocmd FileType cpp setlocal tabstop=2 shiftwidth=2 expandtab
-
-"" html
-"" for html files, 2 spaces
-autocmd Filetype html setlocal ts=2 sw=2 expandtab
-
-"" vim-javascript
-augroup vimrc-javascript
-  autocmd!
-  autocmd FileType javascript set tabstop=4|set shiftwidth=4|set expandtab softtabstop=4
-augroup END
-
-"" python
-"" vim-python
-augroup vimrc-python
-  autocmd!
-  autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=8 colorcolumn=79
-      \ formatoptions+=croq softtabstop=4
-      \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
-augroup END
-
 
 """""""""""""""""""""""
 """ Plugin Settings """
 """""""""""""""""""""""
 
+"" coc.nvim
+" use <tab> for trigger completion and navigate to the next complete item
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+vnoremap <leader>f  <Plug>(coc-format-selected)
+nnoremap <leader>f  :CocCommand prettier.formatFile<CR>
+
+
+"" Deoplete
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#auto_complete_start_length = 2
+let g:deoplete#enable_refresh_always = 0
+
+if !exists('g:deoplete#omni#input_patterns')
+    let g:deoplete#omni#input_patterns = {}
+endif
+" Close scratchpad on insert leave
+autocmd InsertLeave * if pumvisible() == 0 | pclose | endif
+
+" deoplete tab completion
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+
+
+"" LanguageClient auto completion for cpp and python
+let g:LanguageClient_loggingLevel = 'DEBUG'
+let g:LanguageClient_serverStderr = '/tmp/LanguageClient_serverStderr.stderr'
+let g:LanguageClient_loggingFile = '/tmp/LanguageClient.log'
+let g:LanguageClient_autoStart = 1
+let g:LanguageClient_diagnosticsEnable = 1
+let g:LanguageClient_useVirtualText = 0
+let g:LanguageClient_serverCommands = {
+    \ 'python': ['pyls'],
+    \ 'python3': ['pyls'],
+    \ 'cpp': ['ccls', '--log-file=/tmp/ccls.log', '-v=2'],
+    \ 'c': ['ccls', '--log-file=/tmp/ccls.log', '-v=2'],
+    \ }
+
+nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
+nnoremap <leader>lr :call LanguageClient#textDocument_rename()<CR>
+nnoremap <leader>lf :call LanguageClient#textDocument_formatting()<CR>
+nnoremap <leader>lt :call LanguageClient#textDocument_typeDefinition()<CR>
+nnoremap <leader>lx :call LanguageClient#textDocument_references()<CR>
+nnoremap <leader>la :call LanguageClient_workspace_applyEdit()<CR>
+nnoremap <leader>lc :call LanguageClient#textDocument_completion()<CR>
+nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
+nnoremap <leader>ls :call LanguageClient_textDocument_documentSymbol()<CR>
+nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
+
+"" ALE
+let g:ale_c_parse_compile_commands = 1
+"let g:ale_completion_enabled = 1
+let g:ale_lint_on_text_changed = "normal"
+let g:ale_sign_column_always = 1
+let g:ale_linters = {
+    \ 'python': ['pylint'],
+    \ 'cpp': ['clangtidy'],
+    \ 'c': ['gcc'],
+    \ 'fortran': ['gcc'],
+    \ 'tex': ['proselint', 'write-good'],
+    \ 'markdown': ['proselint', 'write-good'],
+    \ }
+
+
+"" Tagbar
+nmap <silent> <F4> :TagbarToggle<CR>
+
+
 "" powerline python
 let g:powerline_pycmd='py3'
 
-" UltiSnips
+
+"" UltiSnips
 let g:UltiSnipsExpandTrigger="<C-j>"
 let g:UltiSnipsJumpForwardTrigger="<CR>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
@@ -397,19 +385,16 @@ if getcwd() =~ "nao"
   call add(g:UltiSnipsSnippetDirectories,'/home/schmidma/worktree/hulks/nao/tools/IDEPlugins/NaoSnippets')
 endif
 
-" Disable visualbell
-set noerrorbells visualbell t_vb=
-if has('autocmd')
-  autocmd GUIEnter * set visualbell t_vb=
-endif
 
-" Tagbar
+"" Tagbar
 let g:tagbar_autofocus = 1
 
-" clever-f
+
+"" clever-f
 let g:clever_f_across_no_line = 1
 let g:clever_f_fix_key_direction = 1
 let g:clever_f_timeout_ms = 3000
+
 
 "" syntastic
 let g:syntastic_python_checkers=['python', 'flake8']
@@ -421,19 +406,20 @@ let g:syntastic_style_warning_symbol = '⚠'
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_check_on_open = 1
 
+
 " vim-airline
-"let g:airline_theme = 'badwolf'
-"let g:airline_solarized_bg='dark'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 
+
 "" fzf.vim
 set wildmode=list:longest,list:full
 set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
+nnoremap <silent> <leader>e :FZF<CR>
+
 
 "" nvim-gdb
-
 let g:nvimgdb_config_override = {
   \ 'key_next': 'n',
   \ 'key_step': 's',
@@ -446,3 +432,26 @@ let g:nvimgdb_config_override = {
   \ 'split_command': 'split'
   \ }
 
+
+"" NERDTree configuration
+let g:NERDTreeChDirMode=2
+let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
+let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
+let g:NERDTreeShowBookmarks=1
+let g:nerdtree_tabs_focus_on_files=1
+let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
+nnoremap <silent> <leader>nt :NERDTreeToggle<CR>
+
+
+"" git-gutter settings
+set updatetime=100
+
+
+"" YAPF (autoformat python)
+nnoremap <C-Y> :Yapf --style pep8<CR>
+
+
+" clang format
+nmap <leader>r :ClangFormat<CR>
+vmap <leader>r :ClangFormat<CR>
