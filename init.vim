@@ -19,7 +19,8 @@ Plug 'xolox/vim-misc'
 Plug 'mindriot101/vim-yapf'
 "Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
 "Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-"Plug 'w0rp/ale'
+Plug 'w0rp/ale'
+"Plug 'ncm2/float-preview.nvim'
 Plug 'neoclide/coc.nvim', {'do': './install.sh nightly'}
 Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
 Plug 'tpope/vim-fugitive'
@@ -30,6 +31,8 @@ Plug 'lervag/vimtex'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 
+Plug 'liuchengxu/vim-which-key'
+
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'rhysd/vim-clang-format'
@@ -38,6 +41,7 @@ Plug 'rhysd/vim-grammarous'
 
 "" Color
 Plug 'chriskempson/base16-vim'
+Plug 'vim-airline/vim-airline-themes'
 
 " All of your Plugins must be added before the following line
 call plug#end()            " required
@@ -85,8 +89,12 @@ if has('autocmd')
   autocmd GUIEnter * set visualbell t_vb=
 endif
 
+" smaller update time for git gutter and Hover of coc
+set updatetime=100
+
 "" Directories for swp files
 set nobackup
+set nowritebackup
 set noswapfile
 
 set fileformats=unix,dos,mac
@@ -94,6 +102,12 @@ set fileformats=unix,dos,mac
 set shell=$SHELL
 
 set autoread
+
+" Smaller updatetime for CursorHold & CursorHoldI
+set updatetime=300
+
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
 
 
 """""""""""""""""""""""
@@ -123,15 +137,19 @@ set laststatus=2
 set modeline
 set modelines=10
 
+set cmdheight=2
+
 set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\
+
+" always show signcolumns
+set signcolumn=yes
 
 let no_buffers_menu=1
 
-"" Base16 color
-let base16colorspace=256 " Access colors present in 256 colorspace
-colorscheme base16-default-dark
-
 let g:airline_theme='base16_default'
+set termguicolors     " enable true colors support
+colorscheme base16-default-dark
+let base16colorspace=256 " Access colors present in 256 colorspace
 
 
 """""""""""""""""""""
@@ -296,80 +314,52 @@ vnoremap K :m '<-2<CR>gv=gv
 """""""""""""""""""""""
 
 "" coc.nvim
-" use <tab> for trigger completion and navigate to the next complete item
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
-
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+"debug coc.nvim
+"let g:coc_node_args = ['--nolazy', '--inspect-brk=6045']
 
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-vnoremap <leader>f  <Plug>(coc-format-selected)
-nnoremap <leader>f  :CocCommand prettier.formatFile<CR>
 
 
-"" Deoplete
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#auto_complete_start_length = 2
-let g:deoplete#enable_refresh_always = 0
-
-if !exists('g:deoplete#omni#input_patterns')
-    let g:deoplete#omni#input_patterns = {}
-endif
-" Close scratchpad on insert leave
-autocmd InsertLeave * if pumvisible() == 0 | pclose | endif
-
-" deoplete tab completion
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+nnoremap <silent> <c-space> :call CocAction('diagnosticInfo')<CR>
 
 
-"" LanguageClient auto completion for cpp and python
-let g:LanguageClient_loggingLevel = 'DEBUG'
-let g:LanguageClient_serverStderr = '/tmp/LanguageClient_serverStderr.stderr'
-let g:LanguageClient_loggingFile = '/tmp/LanguageClient.log'
-let g:LanguageClient_autoStart = 1
-let g:LanguageClient_diagnosticsEnable = 1
-let g:LanguageClient_useVirtualText = 0
-let g:LanguageClient_serverCommands = {
-    \ 'python': ['pyls'],
-    \ 'python3': ['pyls'],
-    \ 'cpp': ['ccls', '--log-file=/tmp/ccls.log', '-v=2'],
-    \ 'c': ['ccls', '--log-file=/tmp/ccls.log', '-v=2'],
-    \ }
+" Use `[c` and `]c` to navigate diagnostics
+nnoremap <silent> [c <Plug>(coc-diagnostic-prev)
+nnoremap <silent> ]c <Plug>(coc-diagnostic-next)
 
-nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
-nnoremap <leader>lr :call LanguageClient#textDocument_rename()<CR>
-nnoremap <leader>lf :call LanguageClient#textDocument_formatting()<CR>
-nnoremap <leader>lt :call LanguageClient#textDocument_typeDefinition()<CR>
-nnoremap <leader>lx :call LanguageClient#textDocument_references()<CR>
-nnoremap <leader>la :call LanguageClient_workspace_applyEdit()<CR>
-nnoremap <leader>lc :call LanguageClient#textDocument_completion()<CR>
-nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
-nnoremap <leader>ls :call LanguageClient_textDocument_documentSymbol()<CR>
-nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
+" Remap keys for gotos
+nnoremap <silent> gd <Plug>(coc-definition)
+nnoremap <silent> gy <Plug>(coc-type-definition)
+nnoremap <silent> gi <Plug>(coc-implementation)
+nnoremap <silent> gr <Plug>(coc-references)
+nnoremap <leader>rn :<C-u>call CocActionAsync('rename')<CR>
+nnoremap <leader>qf :<C-u>call CocActionAsync('doQuickfix')<CR>
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight symbol under cursor on CursorHold
+"autocmd CursorHold * silent call CocActionAsync('highlight')
+
 
 "" ALE
 let g:ale_c_parse_compile_commands = 1
-"let g:ale_completion_enabled = 1
 let g:ale_lint_on_text_changed = "normal"
 let g:ale_sign_column_always = 1
 let g:ale_linters = {
-    \ 'python': ['pylint'],
     \ 'cpp': ['clangtidy'],
-    \ 'c': ['gcc'],
-    \ 'fortran': ['gcc'],
-    \ 'tex': ['proselint', 'write-good'],
-    \ 'markdown': ['proselint', 'write-good'],
     \ }
-
-
-"" Tagbar
-nmap <silent> <F4> :TagbarToggle<CR>
 
 
 "" powerline python
@@ -388,23 +378,13 @@ endif
 
 "" Tagbar
 let g:tagbar_autofocus = 1
+nnoremap <silent> <F4> :TagbarToggle<CR>
 
 
 "" clever-f
 let g:clever_f_across_no_line = 1
 let g:clever_f_fix_key_direction = 1
 let g:clever_f_timeout_ms = 3000
-
-
-"" syntastic
-let g:syntastic_python_checkers=['python', 'flake8']
-let g:syntastic_always_populate_loc_list=1
-let g:syntastic_error_symbol='✗'
-let g:syntastic_warning_symbol='⚠'
-let g:syntastic_style_error_symbol = '✗'
-let g:syntastic_style_warning_symbol = '⚠'
-let g:syntastic_aggregate_errors = 1
-let g:syntastic_check_on_open = 1
 
 
 " vim-airline
@@ -444,14 +424,9 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
 nnoremap <silent> <leader>nt :NERDTreeToggle<CR>
 
 
-"" git-gutter settings
-set updatetime=100
-
-
 "" YAPF (autoformat python)
 nnoremap <C-Y> :Yapf --style pep8<CR>
 
-
 " clang format
-nmap <leader>r :ClangFormat<CR>
-vmap <leader>r :ClangFormat<CR>
+nmap <leader>f :ClangFormat<CR>
+vmap <leader>f :ClangFormat<CR>
