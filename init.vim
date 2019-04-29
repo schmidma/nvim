@@ -322,21 +322,21 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 
 " Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
-nnoremap <silent> <c-space> :call CocAction('diagnosticInfo')<CR>
+imap <silent> <c-space> <Plug>CocRefresh
+nmap <silent> <c-space> <Plug>(coc-diagnostic-info)
 
 
 " Use `[c` and `]c` to navigate diagnostics
-nnoremap <silent> [c <Plug>(coc-diagnostic-prev)
-nnoremap <silent> ]c <Plug>(coc-diagnostic-next)
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
 
 " Remap keys for gotos
-nnoremap <silent> gd <Plug>(coc-definition)
-nnoremap <silent> gy <Plug>(coc-type-definition)
-nnoremap <silent> gi <Plug>(coc-implementation)
-nnoremap <silent> gr <Plug>(coc-references)
-nnoremap <leader>rn :<C-u>call CocActionAsync('rename')<CR>
-nnoremap <leader>qf :<C-u>call CocActionAsync('doQuickfix')<CR>
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nmap <leader>rn <Plug>(coc-rename)
+nmap <leader>qf <Plug>(coc-fix-current)
 
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
