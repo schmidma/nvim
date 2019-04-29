@@ -1,7 +1,7 @@
 {
   "languageserver": {
     "ccls": {
-      "command": "ccls",
+      "command": "~/worktree/ccls/Release/ccls",
       "filetypes": ["c", "cpp", "objc", "objcpp"],
       "rootPatterns": [
         ".ccls",
@@ -10,12 +10,9 @@
         ".git/",
         ".hg/"
       ],
-      "initializationOptions": {
-        "cache": {
-          "directory": "/tmp/ccls"
-        }
-      }
+      "trace.server": "verbose"
     }
   },
-  "python.jediEnabled": false
+  "python.trace.server": "verbose",
+  "python.jediEnabled": true
 }
