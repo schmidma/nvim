@@ -137,7 +137,7 @@ set laststatus=2
 set modeline
 set modelines=10
 
-set cmdheight=2
+"set cmdheight=2
 
 set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\
 
