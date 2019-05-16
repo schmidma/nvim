@@ -338,6 +338,8 @@ nmap <silent> gr <Plug>(coc-references)
 nmap <leader>rn <Plug>(coc-rename)
 nmap <leader>qf <Plug>(coc-fix-current)
 
+nmap <silent> <leader>f :call CocAction('format')<CR>
+
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
@@ -427,6 +429,3 @@ nnoremap <silent> <leader>nt :NERDTreeToggle<CR>
 "" YAPF (autoformat python)
 nnoremap <C-Y> :Yapf --style pep8<CR>
 
-" clang format
-nmap <leader>f :ClangFormat<CR>
-vmap <leader>f :ClangFormat<CR>
