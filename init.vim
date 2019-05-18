@@ -27,6 +27,9 @@ Plug 'tpope/vim-fugitive'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'daeyun/vim-matlab', { 'do': ':UpdateRemotePlugins' }
 Plug 'lervag/vimtex'
+Plug 'neapel/vim-bnfc-syntax'
+
+
 
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
