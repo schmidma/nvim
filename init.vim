@@ -21,7 +21,7 @@ Plug 'mindriot101/vim-yapf'
 "Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'w0rp/ale'
 "Plug 'ncm2/float-preview.nvim'
-Plug 'neoclide/coc.nvim', {'do': './install.sh nightly'}
+Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
 Plug 'tpope/vim-fugitive'
 Plug 'terryma/vim-multiple-cursors'
