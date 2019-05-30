@@ -16,6 +16,7 @@ Plug 'rhysd/clever-f.vim'
 Plug 'rstacruz/vim-closer'
 Plug 'tpope/vim-surround'
 Plug 'xolox/vim-misc'
+Plug 'machakann/vim-swap'
 Plug 'mindriot101/vim-yapf'
 "Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
 "Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -24,6 +25,7 @@ Plug 'w0rp/ale'
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'daeyun/vim-matlab', { 'do': ':UpdateRemotePlugins' }
 Plug 'lervag/vimtex'
