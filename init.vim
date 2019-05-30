@@ -327,7 +327,7 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 
 " Use <c-space> to trigger completion.
-imap <silent> <c-space> <Plug>CocRefresh
+inoremap <silent><expr> <c-space> coc#refresh()
 nmap <silent> <c-space> <Plug>(coc-diagnostic-info)
 
 
