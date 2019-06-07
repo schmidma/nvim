@@ -132,7 +132,7 @@ set splitbelow
 set splitright
 
 "" Minimal number of screen lines to keep above and below the cursor.
-set scrolloff=3
+set scrolloff=15
 
 "" Status bar (display always)
 set laststatus=2
