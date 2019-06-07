@@ -27,7 +27,6 @@ Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'daeyun/vim-matlab', { 'do': ':UpdateRemotePlugins' }
 Plug 'lervag/vimtex'
 Plug 'neapel/vim-bnfc-syntax'
 
