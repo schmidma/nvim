@@ -192,9 +192,6 @@ tnoremap <Esc> <C-\><C-n>
 noremap <Leader>sh :<C-u>split<CR>
 noremap <Leader>sv :<C-u>vsplit<CR>
 
-" toggle source header key
-nmap <leader><C-I> :call ToggleSourceHeader()<CR>
-
 " Tabs
 nnoremap <leader>l gt
 nnoremap <leader>h gT
@@ -531,6 +528,17 @@ Plug 'chriskempson/base16-vim'
 Plug 'junegunn/goyo.vim'
 
 " }}} goyo
+
+" -> CurtineIncSw.vim {{{
+"  Easily toggle between *.c* and *.h* buffers
+Plug 'ericcurtin/CurtineIncSw.vim'
+
+" toggle source header key
+nmap <leader><C-I> :call CurtineIncSw()<CR>
+
+
+" }}} CurtineIncSw.vim
+
 
 
 
