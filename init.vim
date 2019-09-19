@@ -539,6 +539,13 @@ nmap <leader><C-I> :call CurtineIncSw()<CR>
 
 " }}} CurtineIncSw.vim
 
+" -> tabular  {{{
+" Vim script for text filtering and alignment
+
+Plug 'godlygeek/tabular'
+
+
+" }}} tabular
 
 
 
