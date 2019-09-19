@@ -526,6 +526,13 @@ Plug 'chriskempson/base16-vim'
 
 " }}} base16-vim
 
+" -> goyo  {{{
+"  Distraction-free writing in Vim
+Plug 'junegunn/goyo.vim'
+
+" }}} goyo
+
+
 
 " All of your Plugins must be added before the following line
 call plug#end()            " required
