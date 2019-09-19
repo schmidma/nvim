@@ -142,7 +142,7 @@ augroup END
 augroup filetype_cpp
     autocmd!
     autocmd FileType c setlocal tabstop=2 shiftwidth=2 expandtab
-    autocmd FileType cpp setlocal tabstop=2 shiftwidth=2 expandtab
+    autocmd FileType cpp setlocal tabstop=2 shiftwidth=2 expandtab commentstring=//\ %s
 augroup END
 
 " html files, 2 spaces
