@@ -499,7 +499,7 @@ Plug 'SirVer/ultisnips'
 
 
 let g:UltiSnipsExpandTrigger="<C-j>"
-let g:UltiSnipsJumpForwardTrigger="<CR>"
+let g:UltiSnipsJumpForwardTrigger="<C-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 let g:UltiSnipsSnippetDirectories = ['UltiSnips']
 if getcwd() =~ "nao"
