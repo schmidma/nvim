@@ -596,6 +596,9 @@ let base16colorspace=256
 " base16 colorscheme
 colorscheme base16-default-dark
 
+" hightlight semantics of CocNvim more clear
+highlight CocHighlightText cterm=bold ctermfg=4 ctermbg=18 gui=bold guifg=#c2dee8 guibg=#282828
+
 
 " }}}}}}}}}}}}}}}}}}}}}}}}}}}}} Visual Settings
 
