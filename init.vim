@@ -370,7 +370,7 @@ let g:ale_sign_column_always = 1
 let g:ale_linters = {
     \ 'cpp': ['clangtidy'],
     \ }
-let g:ale_cpp_clangtidy_checks = ['llvm-*', 'modernize-*', 'readability-*', '-llvm-header-guard']
+let g:ale_cpp_clangtidy_checks = ['llvm-*', 'modernize-*', 'readability-*', '-llvm-header-guard', '-readability-uppercase-literal-suffix', '-modernize-use-nodiscard']
 
 " }}} ALE
 
