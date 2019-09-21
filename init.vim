@@ -318,12 +318,6 @@ nnoremap <silent> <F4> :TagbarToggle<CR>
 
 " }}} tagbar
 
-" -> targets.vim  {{{
-" Vim plugin that provides additional text objects to operate on.
-Plug 'wellle/targets.vim'
-
-" }}} targets.vim
-
 " -> vim-indent-object  {{{
 " Vim plugin that defines a new text object representing lines of code at the same indent level.
 Plug 'michaeljsmith/vim-indent-object'
