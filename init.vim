@@ -285,11 +285,11 @@ Plug 'airblade/vim-gitgutter'
 
 " }}} vim-gitgutter
 
-" -> grep  {{{
-" Grep search tools integration.
-Plug 'vim-scripts/grep.vim'
+" -> ripgrep  {{{
+" Use RipGrep in Vim and display results in a quickfix list
+Plug 'jremmen/vim-ripgrep'
 
-" }}} grep
+" }}} ripgrep
 
 " -> DoxygenToolkit  {{{
 " Simplify Doxygen documentation in C, C++, Python.
